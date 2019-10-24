@@ -1,0 +1,769 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+  <xs:include schemaLocation="common.xsd" />
+
+  <xs:simpleType name="gamestartimageid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z0-9_]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="gamestartid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z0-9_]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="gamestartmacroname">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z0-9_]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="gamestartmacropath">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z0-9_./]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="gamestartconnectionname">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[a-z0-9_]+" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="gamestartinfoitem">
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Item name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="value" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Item description
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartinfo">
+    <xs:sequence>
+      <xs:element name="item" type="gamestartinfoitem" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Definition of one name/description text pair
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="requirement" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Description of requirement to make this gamestart available
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartunlockachievement">
+    <xs:attribute name="ref" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Achievement name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartunlock">
+    <xs:sequence>
+      <xs:element name="achievement" type="gamestartunlockachievement" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Achievement required to unlock gamestart
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+<xs:complexType name="gamestartplayerlocation">
+    <xs:sequence>
+      <xs:element name="position" type="position" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Start position of player
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Start rotation of player
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="room" type="gamestartmacroname">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of room
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="disembarked" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Whether player is disembarked from player ship
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartinterior">
+    <xs:attribute name="type" type="roomtypelookup">
+      <xs:annotation>
+        <xs:documentation>
+          Interior type
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Interior name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="corridor" type="gamestartmacroname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of interior corridor
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="door" type="gamestartconnectionname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Connection name within corridor to which room should be attached
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="room" type="gamestartmacroname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of interior room
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="module" type="gamestartmacroname">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of module within object in which to create interior
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="modulepath" type="gamestartmacropath">
+      <xs:annotation>
+        <xs:documentation>
+          Macro path of module within object in which to create interior
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartlocation">
+    <xs:sequence>
+      <xs:element name="position" type="position" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Start position of player ship
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="rotation" type="rotation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Start rotation of player ship
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="player" type="gamestartplayerlocation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Location of player if separate from ship
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="interior" type="gamestartinterior" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Dynamically created interior for player to start in
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="galaxy" type="gamestartmacroname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of galaxy to use for map
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="zone" type="gamestartmacroname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of start zone within galaxy
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="stationpath" type="gamestartmacropath">
+      <xs:annotation>
+        <xs:documentation>
+          Macro path of station within galaxy
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="station" type="gamestartmacroname">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of station
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="tradestation" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is trade station (only used with station macro, no check made if not supplied)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="shipyard" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is shipyard (only used with station macro, no check made if not supplied - can be combined with wharf to require either shipyard or wharf)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="wharf" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is wharf (only used with station macro, no check made if not supplied - can be combined with shipyard to require either shipyard or wharf)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="equipmentdock" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is equipment dock (only used with station macro, no check made if not supplied)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="defencestation" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is defence station (only used with station macro, no check made if not supplied)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="piratebase" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is pirate base (only used with station macro, no check made if not supplied)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="headquarters" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Station is headquarters (only used with station macro, no check made if not supplied)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="shippath" type="gamestartmacropath">
+      <xs:annotation>
+        <xs:documentation>
+          Macro path of ship within galaxy
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="ship" type="gamestartmacroname">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of ship
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="roompath" type="gamestartmacropath">
+      <xs:annotation>
+        <xs:documentation>
+          Macro path of room within galaxy
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="room" type="gamestartmacroname">
+      <xs:annotation>
+        <xs:documentation>
+          Macro name of room
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="faction" type="factionlookup">
+      <xs:annotation>
+        <xs:documentation>
+          Faction name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="docked" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Whether player ship should be docked
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="playershiploadout">
+    <xs:sequence>
+      <xs:group ref="loadoutelements">
+        <xs:annotation>
+          <xs:documentation>
+            Player ship loadout
+          </xs:documentation>
+        </xs:annotation>
+      </xs:group>
+    </xs:sequence>
+    <xs:attribute name="debug" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Loadout is debug-only
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartshipmod">
+    <xs:attribute name="paint" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Paint mod
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartplayership">
+    <xs:sequence>
+      <xs:element name="loadout" type="playershiploadout" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Player ship sloadout
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="modification" type="gamestartshipmod" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Player ship mods
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="macro" type="gamestartmacroname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Player ship macro
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Player ship name (if different to that in the player ship macro)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartinventoryware">
+    <xs:attribute name="ware" type="ware" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Inventory ware name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="amount" type="xs:integer">
+      <xs:annotation>
+        <xs:documentation>
+          Amount of inventory ware
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartinventory">
+    <xs:sequence>
+      <xs:element name="ware" type="gamestartinventoryware" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Inventory item
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartblueprintware">
+    <xs:attribute name="ware" type="ware" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Blueprint ware name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="method" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Ware production method
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cycle" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          Cycle efficiency
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="product" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          Product efficiency
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="resource" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          Resource efficiency
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartblueprints">
+    <xs:sequence>
+      <xs:element name="ware" type="gamestartblueprintware" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Blueprint
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="station" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Include blueprints for player-owned stations (defaults to true)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartresearchware">
+    <xs:attribute name="ware" type="ware" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Blueprint ware name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cycle" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          Cycle efficiency
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="product" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          Product efficiency
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="resource" type="xs:float">
+      <xs:annotation>
+        <xs:documentation>
+          Resource efficiency
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartresearch">
+    <xs:sequence>
+      <xs:element name="ware" type="gamestartresearchware" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Research item
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gamestarttimelineentry">
+    <xs:attribute name="ref" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Timeline entry ID
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestarttimeline">
+    <xs:sequence>
+      <xs:element name="entry" type="gamestarttimelineentry" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Timeline entry
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="gamestarttheme">
+    <xs:attribute name="paint" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Paint theme
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="clothing" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Clothing theme
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartplayermod">
+    <xs:attribute name="clothing" type="xs:string" use="optional">
+      <xs:annotation>
+        <xs:documentation>
+          Clothing mod
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestartplayer">
+    <xs:sequence>
+      <xs:element name="ship" type="gamestartplayership" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Player ship
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="inventory" type="gamestartinventory" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Inventory
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="blueprints" type="gamestartblueprints" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Blueprints
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="research" type="gamestartresearch" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Research
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="timeline" type="gamestarttimeline" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Timeline
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="theme" type="gamestarttheme" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Theme
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="modification" type="gamestartplayermod" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Player mods
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="macro" type="gamestartmacroname" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Player macro
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Player name (if different to that in the player macro)
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="money" type="xs:integer">
+      <xs:annotation>
+        <xs:documentation>
+          Player starting money
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestart">
+    <xs:sequence>
+      <xs:element name="info" type="gamestartinfo" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Descriptive text for new game menu
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="unlock" type="gamestartunlock" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Unlock requirements for gamestart
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="location" type="gamestartlocation" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Map and start location
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+      <xs:element name="player" type="gamestartplayer" minOccurs="0" maxOccurs="1">
+        <xs:annotation>
+          <xs:documentation>
+            Player information
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="id" type="gamestartid" use="required">
+      <xs:annotation>
+        <xs:documentation>
+           Gamestart id
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="name" type="xs:string" use="required">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="description" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart description
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="image" type="gamestartimageid">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart image
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cutscene" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart cutscene name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="cutscenevoice" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart cutscene voice sequence name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="intro" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart intro animation
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="introvoice" type="xs:string">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart intro animation voice sequence name
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="group" type="xs:integer">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart group number
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+    <xs:attribute name="debug" type="xs:boolean">
+      <xs:annotation>
+        <xs:documentation>
+          Gamestart is debug-only
+        </xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+  </xs:complexType>
+
+  <xs:complexType name="gamestarts">
+    <xs:sequence>
+      <xs:element name="gamestart" type="gamestart" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation>
+          <xs:documentation>
+            Definition of a single gamestart
+          </xs:documentation>
+        </xs:annotation>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="gamestarts" type="gamestarts">
+    <xs:annotation>
+      <xs:documentation>
+        Gamestarts
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+</xs:schema>
